@@ -1,0 +1,5 @@
+{
+  "entrypoint": "gg.astromc.agones.AgonesExtension",
+  "name": "AgonesExtension",
+  "version": "1.0.0"
+}
