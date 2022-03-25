@@ -31,6 +31,7 @@ dependencies {
 tasks {
     shadowJar {
         archiveBaseName.set(project.name)
+        minimize()
     }
 
     build {
