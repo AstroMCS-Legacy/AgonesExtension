@@ -1,0 +1,29 @@
+name: Build and Publish
+on: ["push"]
+jobs:
+  build-and-publish-agones-ext:
+    name: Build & publish Agones Ext jar
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: '7.3'
+
+      - name: Building our software
+        env:
+          MAVEN_REPO_USERNAME: ${{ secrets.MAVEN_REPO_USERNAME }}
+          MAVEN_REPO_PASSWORD: ${{ secrets.MAVEN_REPO_PASSWORD }}
+        run: gradle build
+
+      - name: Publish to nexus
+        env:
+          MAVEN_REPO_USERNAME: ${{ secrets.MAVEN_REPO_USERNAME }}
+          MAVEN_REPO_PASSWORD: ${{ secrets.MAVEN_REPO_PASSWORD }}
+        run: gradle publish

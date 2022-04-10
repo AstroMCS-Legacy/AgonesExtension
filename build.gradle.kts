@@ -1,10 +1,29 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+// Provide maven credentials in ~/.gradle/gradle.properties or using environment variables
+val mavenUsername = System.getenv("MAVEN_REPO_USERNAME") ?: properties["mavenUsername"] as String?
+val mavenPassword = System.getenv("MAVEN_REPO_PASSWORD") ?: properties["mavenPassword"] as String?
+
+val mavenCredentials: PasswordCredentials.() -> Unit = {
+    username = mavenUsername
+    password = mavenPassword
+}
+
+// Getting the project's groupId, artifactId and version.
+val projectGroupId = System.getenv("BUILD_GROUP_ID") ?: properties["groupId"] as String? ?: ""
+val projectArtifactId = System.getenv("BUILD_ARTIFACT_ID") ?: properties["artifactId"] as String? ?: ""
+val projectVersion = System.getenv("BUILD_VERSION") ?: properties["version"] as String? ?: ""
+
+group = projectGroupId
+version = projectVersion
+
 plugins {
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.serialization") version "1.6.10"
 
     id("com.github.johnrengelman.shadow") version "7.1.0"
+
+    `maven-publish`
 }
 
 group = "gg.astromc"
@@ -43,4 +62,24 @@ val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     jvmTarget = JavaVersion.VERSION_17.toString()
     freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=kotlin.RequiresOptIn")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = projectGroupId
+            artifactId = projectArtifactId
+            version = projectVersion
+
+            from(components["kotlin"])
+        }
+    }
+
+    repositories {
+        maven {
+            val ending = if (projectVersion.endsWith("-SNAPSHOT")) { "snapshots" } else { "releases" }
+            url = uri("https://repo.astromc.gg/repository/maven-$ending/")
+            credentials(mavenCredentials)
+        }
+    }
 }
