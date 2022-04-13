@@ -71,7 +71,7 @@ publishing {
             artifactId = projectArtifactId
             version = projectVersion
 
-            from(components["kotlin"])
+            from(components["java"])
         }
     }
 
