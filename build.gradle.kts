@@ -43,8 +43,8 @@ dependencies {
     compileOnly("com.github.Minestom:Minestom:b63a73516d")
 
     implementation("com.github.Cubxity:AgonesKt:4a8f3dc251")
-    runtimeOnly("io.grpc:grpc-kotlin-stub:1.2.1")
-    runtimeOnly("io.grpc:grpc-netty:1.45.1")
+    runtimeOnly("io.grpc:grpc-kotlin-stub:0.2.0")
+    runtimeOnly("io.grpc:grpc-netty:1.45.0")
 }
 
 tasks {
