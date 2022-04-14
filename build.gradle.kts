@@ -39,6 +39,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     implementation("com.charleskorn.kaml:kaml:0.40.0")
+    implementation("com.github.CatDevz:EnvSchema:17470cf716")
 
     compileOnly("com.github.Minestom:Minestom:b63a73516d")
 

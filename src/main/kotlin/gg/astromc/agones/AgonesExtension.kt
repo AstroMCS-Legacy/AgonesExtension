@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
+import me.codyq.envschema.EnvSchema
 import net.minestom.server.MinecraftServer
 import net.minestom.server.extensions.Extension
 import net.minestom.server.utils.time.TimeUnit
@@ -24,7 +25,10 @@ class AgonesExtension : Extension() {
             configFile.writeText(Yaml.default.encodeToString(Config()))
         }
 
-        val config = Yaml.default.decodeFromString<Config>(configFile.readText())
+        val config = EnvSchema.load(
+            Yaml.default.decodeFromString<Config>(configFile.readText()),
+            prefix = "EXT_AGONES_",
+        )
 
         // Setup the SDK
         agones = AgonesSDK(

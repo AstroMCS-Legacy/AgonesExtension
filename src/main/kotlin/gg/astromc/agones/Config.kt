@@ -1,7 +1,9 @@
 package gg.astromc.agones
 
 import kotlinx.serialization.Serializable
+import me.codyq.envschema.annotations.EnvObject
 
+@EnvObject
 @Serializable
 data class Config(
     val debugLogging: Boolean = false,
@@ -10,6 +12,7 @@ data class Config(
     val agonesSDK: AgonesSDKSection = AgonesSDKSection(),
 )
 
+@EnvObject
 @Serializable
 data class HealthSection(
     val enableHealthChecks: Boolean = true,
@@ -17,6 +20,7 @@ data class HealthSection(
     val healthCheckStartDelay: Long = 0,
 )
 
+@EnvObject
 @Serializable
 data class AgonesSDKSection(
     val sdkGrpcPort: Int = 9357,
